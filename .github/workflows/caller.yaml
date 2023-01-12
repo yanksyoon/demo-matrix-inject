@@ -1,0 +1,15 @@
+name: Call integration test demo
+
+on: ["push"]
+
+jobs:
+  default-arg:
+    uses: ./.github/workflows/integration_test.yaml
+  custom-arg:
+    uses: ./.github/workflows/integration_test.yaml
+    with:
+      extra-test-matrix: |
+        {
+          "extra-arg": ["extra a", "extra b", "extra c"],
+          "exclude": ["extra c"]
+        }

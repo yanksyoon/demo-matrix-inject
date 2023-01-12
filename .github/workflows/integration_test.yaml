@@ -1,0 +1,32 @@
+name: Matrix injection demo
+
+on:
+  workflow_call:
+    inputs:
+      series:
+        description: test
+        default: '["series a", "series b"]'
+        type: string
+      modules:
+        description: test
+        default: '["module a", "mobule b"]'
+        type: string
+      extra-test-matrix:
+        description: |
+          Aditional mapping to lists of matrices to be applied on top of series and modules matrix in JSON format, i.e. '{"extras":["foo","bar"]}'.
+          Each mapping will be injected into the matrix section of the integration-test.
+        type: string
+        default: '{}'
+
+jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        series: ${{ fromJSON(inputs.series) }}
+        modules: ${{ fromJSON(inputs.modules) }}
+        ${{ insert }}: ${{ fromJSON(inputs.extra-test-matrix) }}
+      fail-fast: false
+    name: Integration Tests (${{ matrix.series }}, ${{ matrix.modules }})
+    steps:
+      - run: echo ${{ matrix.series }}, ${{ matrix.modules }}
