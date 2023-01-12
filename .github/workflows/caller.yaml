@@ -11,5 +11,8 @@ jobs:
       extra-test-matrix: |
         {
           "extra-arg": ["extra a", "extra b", "extra c"],
-          "exclude": ["extra c"]
+          "exclude": [
+            {"series": "series a", "extra-arg": "extra c"},
+            {"series": "series b", "extra-arg": "extra c"},
+          ]
         }
